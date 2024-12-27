@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings</title>
+    <style>
+        /* Basic Reset */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            background: #e8edf3;
+            color: #333;
+        }
+
+        #settings-content {
+            width: 100%;
+            max-width: 400px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        h2 {
+            color: #3a6ea5;
+            margin-bottom: 20px;
+            font-size: 24px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            color: #555;
+            margin: 12px 0 6px;
+            text-align: left;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            font-size: 14px;
+            border: 1px solid #d0d7de;
+            border-radius: 8px;
+            outline: none;
+            transition: border 0.2s ease-in-out;
+        }
+
+        input:focus {
+            border-color: #3a6ea5;
+            box-shadow: 0px 0px 4px rgba(58, 110, 165, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            margin-top: 15px;
+            font-size: 16px;
+            font-weight: bold;
+            color: #ffffff;
+            background-color: #3a6ea5;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, transform 0.1s ease-in-out;
+        }
+
+        button:hover {
+            background-color: #345c85;
+        }
+
+        button:active {
+            transform: scale(0.98);
+        }
+
+        #clear {
+            background-color: #f05353;
+        }
+
+        #clear:hover {
+            background-color: #d04545;
+        }
+    </style>
+</head>
+<body>
+    <div id="settings-content">
+        <h2>Настройки прокси</h2>
+        <label for="host">Хост:</label>
+        <input type="text" id="host" placeholder="Введите хост" />
+        
+        <label for="port">Порт:</label>
+        <input type="text" id="port" placeholder="Введите порт" />
+        
+        <label for="username">Имя пользователя:</label>
+        <input type="text" id="username" placeholder="Введите имя пользователя" />
+        
+        <label for="password">Пароль:</label>
+        <input type="password" id="password" placeholder="Введите пароль" />
+        
+        <button id="save">Сохранить прокси</button>
+        <button id="clear">Отключить прокси</button>
+    </div>
+
+    <script>
+        document.getElementById('save').addEventListener('click', () => {
+            const proxy = {
+                host: document.getElementById('host').value,
+                port: document.getElementById('port').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value
+            };
+            window.electronAPI.saveProxySettings(proxy);
+        });
+
+        document.getElementById('clear').addEventListener('click', () => {
+            window.electronAPI.clearProxySettings();
+            document.getElementById('host').value = '';
+            document.getElementById('port').value = '';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        });
+    </script>
+</body>
+</html>

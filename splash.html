@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splash Screen</title>
+    <style>
+        /* Ваши стили... */
+        body {
+            font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ffff00, #ff7f0a, #ff4e50, #1fddff, #28a745, #ffff00);
+            background-size: 400% 400%;
+            animation: gradientAnimation 15s ease infinite;
+            color: #333;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .splash-container {
+            text-align: center;
+            position: relative;
+        }
+
+        .logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            animation: rotate 10s linear infinite;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .text-container {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .text-container p {
+            margin: -100px;
+            font-size: 20px;
+            color: #ffffff;
+            opacity: 0;
+            animation: textFade 10s ease-in-out infinite;
+        }
+
+        @keyframes textFade {
+            0% {
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            40% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            90% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        @media only screen and (max-width: 375px) {
+            body {
+                background-color: #000000;
+                color: #FFFF00;
+                flex-direction: column;
+                justify-content: flex-start;
+                padding: 20px;
+            }
+
+            .splash-container {
+                position: static;
+                text-align: center;
+            }
+
+            .logo {
+                width: 60px;
+                height: 60px;
+            }
+
+            .text-container p {
+                font-size: 14px;
+                height: 150;
+                color: #FFFF00;
+            }
+        }
+
+        .control-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 40px;
+            width: 100%;
+            background: transparent;
+            display: flex;
+            justify-content: flex-end;
+            -webkit-app-region: drag;
+            z-index: 1000;
+        }
+
+        .control-panel .button {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            -webkit-app-region: no-drag;
+        }
+
+        .control-panel .minimize {
+            background: #555;
+        }
+
+        .control-panel .maximize {
+            background: #777;
+        }
+
+        .control-panel .close {
+            background: red;
+        }
+
+        .control-panel .minimize:hover {
+            background: #444;
+        }
+
+        .control-panel .maximize:hover {
+            background: #666;
+        }
+
+        .control-panel .close:hover {
+            background: darkred;
+        }
+
+        .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            width: 30px;
+            height: 30px;
+            background: red;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-app-region: no-drag;
+        }
+
+        .close-btn:hover {
+            background: darkred;
+        }
+    </style>
+</head>
+<body>
+    <div class="control-panel">
+        <button class="button minimize" id="minimize-btn">-</button>
+        <button class="button maximize" id="maximize-btn">□</button>
+        <button class="button close" id="close-btn">×</button>
+    </div>
+    <div class="splash-container">
+        <button class="close-btn" id="close-btn-main">X</button>
+        <img src="OIG1.png" class="logo" alt="Logo">
+        <div class="text-container">
+            <p id="splash-text">Connecting...</p>
+        </div>
+    </div>
+    <script>
+        const { ipcRenderer } = window;
+
+        document.querySelector('.minimize').addEventListener('click', () => {
+            window.electronAPI.minimize();
+        });
+
+        document.querySelector('.maximize').addEventListener('click', () => {
+            window.electronAPI.maximize();
+        });
+
+        document.querySelector('.close').addEventListener('click', () => {
+            window.electronAPI.close();
+        });
+
+        const texts = [
+            "Connecting...",
+            "Welcome to SwiftMessage!",
+            "Your messages are secure.",
+            "Enjoy.",
+            "Настраиваем работу",
+            "Наливаем кофе",
+            "Включаем систему",
+            "Пение птиц"
+        ];
+
+        const splashTextElement = document.getElementById('splash-text');
+        let index = 0;
+
+        function changeText() {
+            splashTextElement.textContent = texts[index];
+            index = (index + 1) % texts.length;
+        }
+
+        setInterval(changeText, 2500);
+
+        const currentVersion = 2;
+
+        // Функция для проверки интернет-соединения
+        function checkInternet() {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.src = 'url';
+                img.onload = () => resolve(true);
+                img.onerror = () => resolve(false);
+            });
+        }
+
+
+        async function handleSplashScreen() {
+            const hasInternet = await checkInternet();
+            console.log(`Статус интернета: ${hasInternet ? 'подключено' : 'отключено'}`);
+
+            if (hasInternet) {
+                splashTextElement.textContent = 'Проверка обновлений...';
+                await fetchVersion(); // Загружаем информацию о версии
+            } else {
+                console.log('Нет интернет-соединения. Повторная попытка...');
+                setTimeout(handleSplashScreen, 5000);
+            }
+        }
+
+        handleSplashScreen();
+    </script>
+</body>
+</html>

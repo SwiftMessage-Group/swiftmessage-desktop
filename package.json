@@ -1,0 +1,60 @@
+{
+  "name": "SwiftMessageDesk",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "electron": "^33.0.2",
+    "electron-builder": "^24.13.3"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/cli": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "electron-store": "^10.0.0",
+    "ws": "^8.18.0"
+  },
+  "build": {
+    "appId": "com.swiftmessage.app",
+    "productName": "SwiftMessage",
+    "files": [
+      "main.js",
+      "package.json",
+      "preload.js",
+      "contorls.html",
+      "splash.html",
+      "contorls.js",
+      "OIG1.png"
+    ],
+    "extraResources": [
+      {
+        "from": "./assets/",
+        "to": "assets",
+        "filter": [
+          "**/*"
+        ]
+      }
+    ],
+    "win": {
+      "icon": "favicon.ico",
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowElevation": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "SwiftMessage"
+    }
+  }
+}

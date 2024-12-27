@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Controls</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: flex-end;
+            background: transparent;
+            user-select: none;
+            cursor: default;
+        }
+        #control-panel {
+            position: absolute;
+            top: 0;
+            left: 0;
+            height: 40px;
+            width: 100%;
+            background: transparent;
+            display: flex;
+            justify-content: flex-end;
+            z-index: 1000;
+            -webkit-app-region: drag; /* Для перетаскивания */
+        }
+        .button {
+            width: 30px;
+            height: 30px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            color: white;
+            font-size: 20px;
+            text-align: center;
+            border-radius: 5px;
+        }
+        .minimize { background: #555; }
+        .maximize { background: #777; }
+        .close { background: red; }
+    </style>
+</head>
+<body>
+    <div id="control-panel">
+        <button class="button minimize">-</button>
+        <button class="button maximize">□</button>
+        <button class="button close">×</button>
+       
+    </div>
+    <script>
+        // Устанавливаем обработчики событий для кнопок
+        document.querySelector('.minimize').addEventListener('click', () => {
+            window.electronAPI.minimize();
+        });
+
+        document.querySelector('.maximize').addEventListener('click', () => {
+            window.electronAPI.maximize();
+        });
+
+        document.querySelector('.close').addEventListener('click', () => {
+            window.electronAPI.close();
+        });
+
+        // Сделать панель перетаскиваемой
+        document.getElementById('control-panel').addEventListener('mousedown', (event) => {
+            if (event.which === 1) { // Проверка, что это левый клик
+                window.electronAPI.dragStart(event);
+            }
+        });
+    </script>
+</body>
+</html>
