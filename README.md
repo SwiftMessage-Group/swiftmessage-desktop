@@ -1,8 +1,12 @@
 # SwiftMessage-Desktop
 
-SwiftMessage Desktop is an application for Windows, an optimized application with open source code
+SwiftMessage Desktop is an application for Windows and Linux build on electron Java Scirpt, an optimized application with open source code
 
 #
+Electron js
+```bash
+https://www.electronjs.org/
+```
 
 ![start Screen](https://swiftmessage.org/github/swiftmessage-desktop/start-screen.png)
 
